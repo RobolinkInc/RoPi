@@ -18,11 +18,11 @@ class RoPi:
         self.camera.framerate = 32   # set frame rate to 32 frames per second
 
         # Grab a reference to the raw camera capture
-        rawCapture = PiRGBArray(camera, size=self.resolution)
+        rawCapture = PiRGBArray(self.camera, size=self.resolution)
         time.sleep(0.1)
 
         # Capture frames from the camera
-        self.stream = camera.capture_continuous(rawCapture, format="bgr", use_video_port=True)
+        self.stream = self.camera.capture_continuous(rawCapture, format="bgr", use_video_port=True)
 
         # Set the speed
         self.setSpeed(speed)
@@ -146,16 +146,16 @@ class RoPi:
         """Sets the current speed
         Args: A value of 0-100 as integer.
         """
-        servo1Angle, servo2Angle, servoStep, speed, a19, a20, a21 = requestData()
+        servo1Angle, servo2Angle, servoStep, speed, a19, a20, a21 = self.requestData()
         currentSpeed = speed
 
         while (currentSpeed > speedPercentage):
-            servo1Angle, servo2Angle, servoStep, speed, a19, a20, a21 = requestData()
+            servo1Angle, servo2Angle, servoStep, speed, a19, a20, a21 = self.requestData()
             currentSpeed = speed
             # print(currentSpeed)
             self.speedDecrease()
         while (currentSpeed < speedPercentage):
-            servo1Angle, servo2Angle, servoStep, speed, a19, a20, a21 = requestData()
+            servo1Angle, servo2Angle, servoStep, speed, a19, a20, a21 = self.requestData()
             currentSpeed = speed
             # print(currentSpeed)
             self.speedIncrease()
