@@ -30,7 +30,7 @@ class RoPi:
     def getFrame(self):
         # Resize the stream to the given size
         self.rawCapture.truncate(0)
-        return  stream.next().array
+        return  self.stream.next().array
 
     def readBottomIRSensors(self,):
         """Returns only 3 of 7 bottom IR sensors
