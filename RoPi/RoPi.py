@@ -1,11 +1,36 @@
-# this program reads the serial port
-# at a baud rate of 115200
-
 import serial
+from picamera.array import PiRGBArray
+from picamera import PiCamera
+import time # Time library for delays
 
 class RoPi:
-    def __init__(self):
+    def __init__(self,speed=30,width=320,height=240):
+        # Reads the serial port at a baud rate of 115200
         self.ser = serial.Serial('/dev/ttyUSB0', 115200)
+
+        self.width = width
+        self.height = height
+
+        # Initialize the camera
+        self.camera = PiCamera()
+        self.resolution = (width, height)
+        self.camera.resolution = self.resolution
+        self.camera.framerate = 32   # set frame rate to 32 frames per second
+
+        # Grab a reference to the raw camera capture
+        rawCapture = PiRGBArray(camera, size=self.resolution)
+        time.sleep(0.1)
+
+        # Capture frames from the camera
+        self.stream = camera.capture_continuous(rawCapture, format="bgr", use_video_port=True)
+
+        # Set the speed
+        self.setSpeed(speed)
+
+    def getFrame(self):
+        # Resize the stream to the given size
+        self.rawCapture.truncate(0)
+        return  stream.next().array
 
     def readBottomIRSensors(self,):
         """Returns only 3 of 7 bottom IR sensors
