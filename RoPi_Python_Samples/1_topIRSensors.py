@@ -1,4 +1,6 @@
-import RoPi_SerialCom as ropi
+import RoPi as rp
+ropi = rp.RoPi()
+
 
 #create a while loop so we can read the top IR sensors
 while(1):

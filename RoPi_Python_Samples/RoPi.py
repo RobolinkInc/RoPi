@@ -39,7 +39,7 @@ class RoPi:
         """
         self.ser.write(bytes("L",'UTF-8'))
         read_serial = self.ser.readline()
-        d11, d12, d13, d14, d16, d17, d18 = read_serial.split(" ")
+        d11, d12, d13, d14, d16, d17, d18 = read_serial.split()
         return int(d11), int(d14), int(d18)
 
 
@@ -49,7 +49,7 @@ class RoPi:
         """
         self.ser.write(bytes("L",'UTF-8'))
         read_serial = self.ser.readline()
-        d11, d12, d13, d14, d16, d17, d18 = read_serial.split(" ")
+        d11, d12, d13, d14, d16, d17, d18 = read_serial.split()
         return int(d11), int(d12), int(d13), int(d14), int(d16), int(d17), int(d18)
 
 
@@ -61,9 +61,8 @@ class RoPi:
         self.ser.write(bytes("Z",'UTF-8'))  # REQUEST INFO
         read_serial = self.ser.readline()
         # read the Serial line the rokit should be sending a message
-
         # chop up that message
-        servo1Angle, servo2Angle, servoStep, speed, a19, a20, a21 = read_serial.split(" ")
+        servo1Angle, servo2Angle, servoStep, speed, a19, a20, a21 = read_serial.split()
         # now return the data as integers
         return int(servo1Angle), int(servo2Angle), int(servoStep), int(speed), int(a19), int(a20), int(a21)
 
@@ -77,7 +76,7 @@ class RoPi:
         # read the Serial line the rokit should be sending a message
 
         # chop up that message
-        servo1Angle, servo2Angle, servoStep, speed, a19, a20, a21 = read_serial.split(" ")
+        servo1Angle, servo2Angle, servoStep, speed, a19, a20, a21 = read_serial.split()
         # now return the data as integers
         return int(speed)
 

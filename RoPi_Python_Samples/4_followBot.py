@@ -1,8 +1,8 @@
 #this robot will try to follow an object in front of it
 #this program will run the robot for 15 seconds
-
-import RoPi_SerialCom as ropi
 import time
+import RoPi as rp
+ropi = rp.RoPi()
 
 #grab the time of the start of the program
 startTime = time.time()
@@ -29,7 +29,7 @@ while((time.time()-startTime) < 15):
 
     elif middleIR < 200:
         print("Forwards")
-        ropi.moveForwards()
+        ropi.moveForward()
         time.sleep(0.2)
 
     else:

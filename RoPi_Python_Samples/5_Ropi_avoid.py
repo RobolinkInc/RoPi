@@ -1,5 +1,6 @@
-import RoPi_SerialCom as ropi
 import time
+import RoPi as rp
+ropi = rp.RoPi()
 
 #grab the time of the start of the program
 startTime = time.time()
@@ -26,14 +27,14 @@ while((time.time()-startTime) < 15):
     #detect something ahead, move backward    
     elif middleIR < 200:
         print("Backward")
-        ropi.moveBackwards()
+        ropi.moveBackward()
         time.sleep(1)
         ropi.moveLeft()
         time.sleep(0.2)
     #nothing ahead move straight ahead
     else:
         print("Forward")
-        ropi.moveForwards()
+        ropi.moveForward()
         
 
 #make sure to stop the robot at the very end        
