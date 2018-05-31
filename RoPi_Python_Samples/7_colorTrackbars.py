@@ -12,14 +12,14 @@ import cv2
 
 ropi = rp.RoPi()
 
+
 def nothing(x):
     pass
-
 
 # Creating a window for later use
 cv2.namedWindow('Control Panel')
 
-# Creating track bar
+# Create a track bar
 #cv.CreateTrackbar(trackbarName, windowName, value, count, onChange)  None
 cv2.createTrackbar('hue', 'Control Panel',77,180,nothing)
 cv2.createTrackbar('sat', 'Control Panel',133,255,nothing)
@@ -29,7 +29,7 @@ cv2.createTrackbar('satRange', 'Control Panel',69,127,nothing)
 cv2.createTrackbar('valRange', 'Control Panel',69,127,nothing)
 
  
-while True:
+while (1):
     #grab intial time to measure how long
     #it takes to process the image
     e1 = cv2.getTickCount()
@@ -49,15 +49,16 @@ while True:
     hsvUpper = (h+hr, s+sr, v+vr) 
     #///////////////////////////////////////////////////////////////
     
-    # grab the raw NumPy array representing the image - this array
-    # will be 3D, representing the width, height, and # of channels
-    #convert the image into a numpy array
+    #grab the video frame
     frame = ropi.getFrame()
 
     #flips the frame since the camera is upside down
     frame = cv2.flip(frame,0)
+
+    #display frame
+    cv2.imshow("frame", frame)
     
-    #turn into HSV color space
+    #turn frame into HSV color space
     hsv = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
 
     #mask will be a frame that has filtered the color we are looking for
@@ -66,22 +67,23 @@ while True:
     
     #this "res" frame pieces together 2 the mask frame and the original frame
     res = cv2.bitwise_and(frame,frame, mask= mask)
+    #show res frame
+    cv2.imshow("res", res)
 
-    #save the "key pressed" as a variable
+    #check for the "key pressed" save as a variable "key"
     key = cv2.waitKey(1) & 0xFF
  
     # if the `q` key was pressed, break from the loop
     if key == ord("q"):
         break
-    if key == ord("Q"):
-        break
 
+    
 
-    cv2.imshow("frame", frame)
-    cv2.imshow("res", res)
-
+    #store the time elapsed
     e2 = cv2.getTickCount()
-    time = (e2 - e1)/cv2.getTickFrequency()
-    print("milliSeconds" , time*1000)
+    #(e2 - e1) gives you the number of ticks
+    #this line converts the number of ticks into time elapsed per loop
+    timeElapsed = int((e2 - e1)/cv2.getTickFrequency()*1000)
+    print(timeElapsed,"ms")
 
 cv2.destroyAllWindows()

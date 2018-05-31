@@ -139,4 +139,4 @@ while (1):
 ropi.moveStop()
 #if click exit before clicking q, robot will still move
 print("End of program")
-cv2.destroyAllWindows()
+cvHelper.close(cv2)

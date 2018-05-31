@@ -1,5 +1,6 @@
 import RoPi as rp
 import cv2
+import openCVHelper as cvHelper
 
 ropi = rp.RoPi()
 
@@ -22,6 +23,6 @@ while True:
     if key == ord("Q"):
         break
 
-cv2.destroyAllWindows()
+cvHelper.close(cv2)
 
  
