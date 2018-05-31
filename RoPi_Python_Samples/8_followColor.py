@@ -122,7 +122,6 @@ while (1):
  
     # if the `q` key was pressed, break from the loop
     if key == ord("q"):
-        cvHelper.close(cv2)
         break
 
 

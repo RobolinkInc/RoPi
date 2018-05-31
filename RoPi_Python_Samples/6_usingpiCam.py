@@ -1,6 +1,5 @@
 import RoPi as rp
 import cv2
-import openCVHelper as cvHelper
 
 ropi = rp.RoPi()
 
@@ -17,12 +16,12 @@ while True:
     
     key = cv2.waitKey(1) & 0xFF
     
-    # if the `q` key was pressed, break from the loop
+        # if the `q` key was pressed, break from the loop
     if key == ord("q"):
-        cvHelper.close(cv2)
+        break
+    if key == ord("Q"):
         break
 
-
-
+cv2.destroyAllWindows()
 
  
