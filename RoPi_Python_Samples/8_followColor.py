@@ -3,12 +3,17 @@
 
 import RoPi as rp
 import cv2
+import openCVHelper as cvHelper
 
-ropi = rp.RoPi()
+frame_width = 320
+frame_height = 240
+
+#initiate the RoPi at speed 40% and set the width and height
+ropi = rp.RoPi(speed= 40,width= frame_width,height= frame_height)
+
 
 def nothing(x):
     pass
-
 
 # Creating a window for later use
 cv2.namedWindow('Control Panel')
@@ -22,6 +27,7 @@ cv2.createTrackbar('hueRange', 'Control Panel',5,127,nothing)
 cv2.createTrackbar('satRange', 'Control Panel',69,127,nothing)
 cv2.createTrackbar('valRange', 'Control Panel',69,127,nothing)
 
+#--------------------------------------------------------------
 def filterColor(frame):
     
     #///////////////////////////////////////////////////////////////
@@ -48,11 +54,12 @@ def filterColor(frame):
 
     return mask
 
+#--------------------------------------------------------------
 
 
 
 
-while True:
+while (1):
     #grab intial time to measure how long
     #it takes to process the image
     e1 = cv2.getTickCount()
@@ -82,30 +89,31 @@ while True:
         # find the largest contour in the mask, then use
         # it to compute the minimum enclosing circle and
         # centroid
-        c = max(cnts, key=cv2.contourArea)
-        ((x, y), radius) = cv2.minEnclosingCircle(c)
+        maxCountour = max(cnts, key=cv2.contourArea)
+        ((x, y), radius) = cv2.minEnclosingCircle(maxCountour)
         cv2.circle(res, (int(x), int(y)), int(radius),(0, 255, 255), 2)
         
-        #if the radius of that object is bigger than 15 pixels
+        #if the radius of that object is bigger than 5 pixels
         if(radius > 5):
             
             
-            #if x pixel is below 40% of the frame width ex. x<(320*0.4=128)
+            #if x pixel is below 38% of the frame width ex. x<(320*0.38=121.6)
             if(x<(frame_width*(0.5-0.12))):
                 ropi.moveRight()
-                #print("Right")
+                print("Right")
                 
                 
             elif (x>(frame_width*(0.5+0.12))):
                 ropi.moveLeft()
-               # print("Left")
+                print("Left")
                 
-            else:
+            else:#object is centered stop
                 ropi.moveStop()
-               # print("Stop")
-        else:
+                print("Stopping")
+               
+        else:#nothing is detected stop
             ropi.moveStop()
-            #print("Stop")
+            print("Stop")
         
     #-----------------------------------------------------------------------                
 
@@ -115,18 +123,20 @@ while True:
     # if the `q` key was pressed, break from the loop
     if key == ord("q"):
         break
-    if key == ord("Q"):
-        break
 
 
     cv2.imshow("frame", frame)
     cv2.imshow("res", res)
 
+    #store the time elapsed
     e2 = cv2.getTickCount()
-    time = (e2 - e1)/cv2.getTickFrequency()
-    print("milliSeconds" , time*1000)
+    #(e2 - e1) gives you the number of ticks
+    #this line converts the number of ticks into time elapsed per loop
+    timeElapsed = int((e2 - e1)/cv2.getTickFrequency()*1000)
+    print(timeElapsed,"ms")
     
-cv2.destroyAllWindows()
-#just in case the robot is still moving
+#just in case the robot is still moving make it stop
 ropi.moveStop()
-            
+#if click exit before clicking q, robot will still move
+print("End of program")
+cv2.destroyAllWindows()
