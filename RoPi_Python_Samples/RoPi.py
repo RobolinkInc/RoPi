@@ -1,3 +1,4 @@
+
 import serial
 from picamera.array import PiRGBArray
 from picamera import PiCamera
@@ -238,4 +239,25 @@ class RoPi:
 
 
     def setModifier(self,i):
-        self.ser.write(bytes(i + 97,'UTF-8'))
+        if i == 0:
+            self.ser.write(b'a')
+        elif i == 1:
+            self.ser.write(b'b')
+        elif i == 2:
+            self.ser.write(b'c')
+        elif i == 3:
+            self.ser.write(b'd')
+        elif i == 4:
+            self.ser.write(b'e')
+        elif i == 5:
+            self.ser.write(b'f')
+        elif i == 6:
+            self.ser.write(b'g')
+        elif i == 7:
+            self.ser.write(b'h')
+        elif i == 8:
+            self.ser.write(b'i')
+        elif i == 9:
+            self.ser.write(b'j')
+        else:
+            self.ser.write(b'k')
