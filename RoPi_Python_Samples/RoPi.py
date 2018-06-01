@@ -2,6 +2,9 @@ import serial
 from picamera.array import PiRGBArray
 from picamera import PiCamera
 import time # Time library for delays
+import sys
+sys.path.append('/usr/local/lib/python3.4/site-packages')
+
 
 class RoPi:
     def __init__(self,speed=30,width=320,height=240):
@@ -25,7 +28,7 @@ class RoPi:
         self.stream = self.camera.capture_continuous(self.rawCapture, format="bgr", use_video_port=True)
         next(self.stream)
         # Set the speed
-        self.setSpeed(speed)
+        self.speed(speed)
 
     def getFrame(self):
         # Resize the stream to the given size
@@ -37,7 +40,7 @@ class RoPi:
         """Returns only 3 of 7 bottom IR sensors
         Returns: A tuple with the data as integers. Left, middle, right bottom IR sensors.
         """
-        self.ser.write(bytes("L",'UTF-8'))
+        self.ser.write(b"L")
         read_serial = self.ser.readline()
         d11, d12, d13, d14, d16, d17, d18 = read_serial.split()
         return int(d11), int(d14), int(d18)
@@ -47,7 +50,7 @@ class RoPi:
         """This function request all the bottom IR sensors
         Returns: A tuple with the data as integers. All the bottom IR sensors from left to right.
         """
-        self.ser.write(bytes("L",'UTF-8'))
+        self.ser.write(b"L")
         read_serial = self.ser.readline()
         d11, d12, d13, d14, d16, d17, d18 = read_serial.split()
         return int(d11), int(d12), int(d13), int(d14), int(d16), int(d17), int(d18)
@@ -58,7 +61,7 @@ class RoPi:
         Returns: A tuple with the data as integers.
                 servo left angle, servo right angle, servo step, motor speed, top ir left sensor, top ir middle sensor, top ir right sensor
         """
-        self.ser.write(bytes("Z",'UTF-8'))  # REQUEST INFO
+        self.ser.write(b"Z")  # REQUEST INFO
         read_serial = self.ser.readline()
         # read the Serial line the rokit should be sending a message
         # chop up that message
@@ -71,7 +74,7 @@ class RoPi:
         """This function request motor speed data.
         Return: A motor speed data as integers.
         """
-        self.ser.write(bytes("Z",'UTF-8'))  # REQUEST INFO
+        self.ser.write(b"Z")  # REQUEST INFO
         read_serial = self.ser.readline()
         # read the Serial line the rokit should be sending a message
 
@@ -91,55 +94,55 @@ class RoPi:
 
 
     def moveForward(self,):
-        self.ser.write(bytes('M','UTF-8'))
+        self.ser.write(b'M')
 
 
     def moveBackward(self,):
-        self.ser.write(bytes('N','UTF-8'))
+        self.ser.write(b'N')
 
 
     def moveLeft(self,):
-        self.ser.write(bytes('O','UTF-8'))
+        self.ser.write(b'O')
 
 
     def moveRight(self,):
-        self.ser.write(bytes('P','UTF-8'))
+        self.ser.write(b'P')
 
 
     def moveStop(self,):
-        self.ser.write(bytes('Q','UTF-8'))
+        self.ser.write(b'Q')
 
 
     def servo1Decrease(self,):
-        self.ser.write(bytes('R','UTF-8'))
+        self.ser.write(b'R')
 
 
     def servo1Increase(self,):
-        self.ser.write(bytes('S','UTF-8'))
+        self.ser.write(b'S')
 
 
     def servo2Decrease(self,):
-        self.ser.write(bytes('T','UTF-8'))
+        self.ser.write(b'T')
 
 
     def servo2Increase(self,):
-        self.ser.write(bytes('U','UTF-8'))
+        self.ser.write(b'U')
 
 
     def speedDecrease(self,):
-        self.ser.write(bytes('V','UTF-8'))
+        self.ser.write(b'V')
 
 
     def speedIncrease(self,):
-        self.ser.write(bytes('W','UTF-8'))
+        self.ser.write(b'W')
 
 
     def servoStepIncrease(self,):
-        self.ser.write(bytes('X','UTF-8'))
+        self.ser.write(b'X')
 
 
     def servoStepDecrease(self,):
-        self.ser.write(bytes('Y','UTF-8'))
+        self.ser.write(b'Y')
 
 
     def speed(self,speedPercentage):
@@ -171,9 +174,9 @@ class RoPi:
             speed = 100
         j = speed % 10
         self.setModifier((speed - j) // 10)
-        self.ser.write(bytes('l','UTF-8'))
+        self.ser.write(b'l')
         self.setModifier(j)
-        self.ser.write(bytes('m','UTF-8'))
+        self.ser.write(b'm')
 
 
     def buzz(self, freq, tempo):
@@ -191,13 +194,13 @@ class RoPi:
             tempo = 10
         k = freq % 1000
         self.setModifier((freq - k) // 1000)
-        self.ser.write(bytes('n','UTF-8'))
+        self.ser.write(b'n')
         freq = k
         k = freq % 100
         self.setModifier((freq - k) // 100)
-        self.ser.write(bytes('o','UTF-8'))
+        self.ser.write(b'o')
         self.setModifier(tempo)
-        self.ser.write(bytes('p','UTF-8'))
+        self.ser.write(b'p')
 
 
     def setMotor(self, i, j):
@@ -222,16 +225,16 @@ class RoPi:
             j = 100
         k = i % 10
         self.setModifier((i - k) // 10)
-        self.ser.write(bytes('q','UTF-8'))
+        self.ser.write(b'q')
         self.setModifier(k)
-        self.ser.write(bytes('r','UTF-8'))
+        self.ser.write(b'r')
         k = j % 10
         self.setModifier((j - k) // 10)
-        self.ser.write(bytes('s','UTF-8'))
+        self.ser.write(b's')
         self.setModifier(k)
-        self.ser.write(bytes('t','UTF-8'))
+        self.ser.write(b't')
         self.setModifier(reverse1 + reverse2)
-        self.ser.write(bytes('u','UTF-8'))
+        self.ser.write(b'u')
 
 
     def setModifier(self,i):
