@@ -343,21 +343,21 @@ void loop()
     switch(modifier)
     {
       case 0:
-        SmartInventor.DCMotor(M1, CCW, speedM1);
-        SmartInventor.DCMotor(M2, CW, speedM2);
+        SmartInventor.DCMotor(M1, CCW, char(speedM1));
+        SmartInventor.DCMotor(M2, CW, char(speedM2));
       break;
       case 1:
-        SmartInventor.DCMotor(M1, CW, speedM1);
-        SmartInventor.DCMotor(M2, CW, speedM2);
+        SmartInventor.DCMotor(M1, CW, char(speedM1));
+        SmartInventor.DCMotor(M2, CW, char(speedM2));
       break;
       case 2:
-        SmartInventor.DCMotor(M1, CCW, speedM1);
-        SmartInventor.DCMotor(M2, CCW, speedM2);
+        SmartInventor.DCMotor(M1, CCW, char(speedM1));
+        SmartInventor.DCMotor(M2, CCW, char(speedM2));
       break;
       case 3:
       default:
-        SmartInventor.DCMotor(M1, CW, speedM1);
-        SmartInventor.DCMotor(M2, CCW, speedM2);
+        SmartInventor.DCMotor(M1, CW, char(speedM1));
+        SmartInventor.DCMotor(M2, CCW,char(speedM2));
       break;
     }
 
