@@ -106,6 +106,7 @@ void ropi(){
      
   case 86: //character "V"
   speed = speed - speedStepSize;//decrease the speed
+  Serial.println("speed decrease"); 
      if(speed<0)
   {
   speed = 0;
@@ -115,6 +116,7 @@ void ropi(){
    case 87: //character "W"
    
    speed = speed + speedStepSize;//increase the speed
+   Serial.println("speed increase"); 
      if(speed>100)
   {
   speed = 100;
